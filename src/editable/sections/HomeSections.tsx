@@ -100,29 +100,6 @@ function HorizontalShowcaseCard({ post, href, label }: { post: SitePost; href: s
   )
 }
 
-function ImageFirstCard({ post, href }: { post: SitePost; href: string }) {
-  const meta = detailBits(post)
-  return (
-    <Link href={href} className="group block overflow-hidden rounded-[1.7rem] border border-[var(--editable-border)] bg-white shadow-[0_14px_38px_rgba(34,26,15,0.06)] transition duration-300 hover:-translate-y-1">
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <img src={getEditablePostImage(post)} alt={post.title} className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-        <div className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--slot4-page-text)]">
-          {getEditableCategory(post)}
-        </div>
-      </div>
-      <div className="p-5">
-        <h3 className="line-clamp-2 text-xl font-bold leading-tight text-[var(--slot4-page-text)]">{post.title}</h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-7 text-[var(--slot4-muted-text)]">{getEditableExcerpt(post, 110)}</p>
-        {meta.location ? (
-          <p className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--slot4-muted-text)]">
-            <MapPin className="h-3.5 w-3.5 text-[var(--slot4-accent)]" /> {meta.location}
-          </p>
-        ) : null}
-      </div>
-    </Link>
-  )
-}
-
 export function EditableHomeHero({ primaryTask, primaryRoute, posts, timeSections }: HomeSectionProps) {
   const pool = dedupePosts([...posts, ...timeSections.flatMap((section) => section.posts)])
   const feature = pool[0]
@@ -192,33 +169,10 @@ export function EditableMagazineSplit({ primaryTask, primaryRoute, posts, timeSe
   return (
     <section className="bg-[var(--slot4-page-bg)]">
       <div className={`py-14 ${container}`}>
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--slot4-accent)]">Top story</p>
-            <div className="mt-4">
-              <EditorialFeatureCard post={activity[0]} href={postHref(primaryTask, activity[0], primaryRoute)} label="Lead feature" />
-            </div>
-          </div>
-          <div className="min-w-0">
-            <div className="rounded-[2rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_18px_42px_rgba(35,28,17,0.06)]">
-              <div className="flex items-end justify-between gap-4">
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--slot4-accent)]">Fast browse</p>
-                  <h2 className="editable-display mt-2 text-3xl font-bold tracking-[-0.04em] text-[var(--slot4-page-text)]">Fresh highlights</h2>
-                </div>
-                <Camera className="h-6 w-6 text-[var(--slot4-accent)]" />
-              </div>
-              <div className="mt-6 grid gap-4">
-                {activity.slice(1, 4).map((post, index) => (
-                  <CompactIndexCard key={post.id || post.slug} post={post} href={postHref(primaryTask, post, primaryRoute)} index={index} />
-                ))}
-              </div>
-            </div>
-            <div className="mt-6 grid gap-5 sm:grid-cols-2">
-              {activity.slice(4, 6).map((post) => (
-                <ImageFirstCard key={post.id || post.slug} post={post} href={postHref(primaryTask, post, primaryRoute)} />
-              ))}
-            </div>
+        <div className="min-w-0">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--slot4-accent)]">Top story</p>
+          <div className="mt-4">
+            <EditorialFeatureCard post={activity[0]} href={postHref(primaryTask, activity[0], primaryRoute)} label="Lead feature" />
           </div>
         </div>
       </div>
